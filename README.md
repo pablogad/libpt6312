@@ -23,7 +23,11 @@ and segments definition for this particular display is contained in the vfd1.def
 ## Compilation (library and example)
 
 mkdir build
-cmake .. && make
+
+cd build
+
+cmake .. && make ; cd -
+
 
 The example looks for the vfd1.def file on the current directory, so it should be run
 from the directory where the file is located.
