@@ -1,6 +1,6 @@
 ## libpt6312
 
-This is a library to control a PT6312 (or compatible, like AD15312) VFD controller chip using the GPIO ports of a Raspberry pi.
+This is a library to control a PT6312 (or compatible, like AD16312) VFD controller chip using the GPIO ports of a Raspberry pi.
 
 The configuration of the VFD display in terms of grids and segments is specified with an external file with .def extension.
 
