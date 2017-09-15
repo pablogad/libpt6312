@@ -84,10 +84,9 @@ int main( int argc, char* argv[] ) {
       display.setRoundSectorSectors( sectors );
       updateDisplay( display.getData(),0,12 );
 
-      for( int i=0; i<=8; i++ ) {
-         setLEDs(i&7);
+      for( int i=0; i<=4; i++ ) {
+         setLEDs((1<<i)&0xF);
 	 updateLeds();
-         //updateDisplay( display.getData(),0,1);
          sleep(1);
       }
 

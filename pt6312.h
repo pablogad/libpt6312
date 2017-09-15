@@ -6,6 +6,7 @@ void close_pt6312();
 
 void readKeys( uint8_t* buffer );
 void writeLeds( uint8_t data );
+void updateDisplayPartial( const uint8_t* data, const uint8_t* indices, uint8_t len );
 void updateDisplay( const uint8_t* data, const uint8_t offset, uint8_t len );
 void updateLeds();
 

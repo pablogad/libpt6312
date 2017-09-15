@@ -299,6 +299,39 @@ void updateLeds() {
    strobeDelay();
 }
 
+// Send a non-contiguous set of data. The offsets of the bytes to send comes in the array.
+void updateDisplayPartial( const uint8_t* data, const uint8_t* indices, const int len ) {
+   // First send CMD2: DATA_SET[WR_TO_DISPLAY]
+   sendByte( DATA_SET_CMD | WR_TO_DISPLAY | INC_ADDRESS );
+   strobeDelay();
+
+   int cnt=0;
+   while( cnt != len ) {
+      // Send CMD3 (ADDRESS_SET) and a single data
+      uint8_t idx = indices[cnt];
+      if( idx < 22 ) {  // Ignore data if invalid
+         sendByte( ADDR_SET_CMD | idx );
+	 do {
+	    twait();
+
+	    // Send data. If the next index is consecutive, no need to
+	    // send a new ADDR_SET as the address is already correct.
+            sendByteNoStb( data[idx] );
+	    if( cnt+1 != len && indices[cnt+1] == idx+1 ) {
+	       cnt++;
+               idx = indices[cnt];
+	       continue;
+	    }
+	    else {
+               strobeDelay();
+	       break;
+	    }
+         } while( 1 );
+      }
+      cnt++;
+   }
+}
+
 // Send data to display and read keys
 void updateDisplay( const uint8_t* data, const uint8_t offset, uint8_t len ) {
 

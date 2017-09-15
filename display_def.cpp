@@ -351,11 +351,24 @@ inline uint8_t DisplayDef::translateChar( const char c ) {
 //    offset: initial digit on the digit group (0 by default)
 void DisplayDef::setDigits( const uint8_t group, const std::string& str, const uint8_t offset ) {
    if( group < groupList.size() ) {
-      DigitGroup& g = groupList[ group ];
+      const DigitGroup& g = groupList[ group ];
       int idx=static_cast<int>(offset);
       for( char c : str ) {
-         Digit& d = g.digits[idx++];
+         if( idx > g.digits.size() ) break;
+         const Digit& d = g.digits[idx++];
          setChar( d, translateChar(c) );
+      }
+   }
+}
+
+// Write a digit of a group specifying the segments of the digit to lit.
+// See display_def.hpp to see the bit field values needed to set every segment.
+void DisplayDef::setDigitCustomData( const uint8_t group, const uint8_t offset, const uint8_t segment_bits ) {
+   if( group < groupList.size() ) {
+      const DigitGroup& g = groupList[ group ];
+      if( g.digits.size() > offset ) {
+         const Digit& d = g.digits[ offset ];
+         setChar( d, segment_bits );
       }
    }
 }
@@ -365,8 +378,8 @@ void DisplayDef::setDigits( const uint8_t group, const std::string& str, const u
 //    index : the index of the digit having the : in the group
 void DisplayDef::setDots( const uint8_t group, const uint8_t index ) {
    if( group < groupList.size() ) {
-      DigitGroup& g = groupList[ group ];
-      Digit& d = g.digits[index];
+      const DigitGroup& g = groupList[ group ];
+      const Digit& d = g.digits[index];
       if( d.hasDots ) {
          setDataBits( d.dotsGrid, d.dotsCode );
       }
@@ -374,8 +387,8 @@ void DisplayDef::setDots( const uint8_t group, const uint8_t index ) {
 }
 void DisplayDef::removeDots( const uint8_t group, const uint8_t index ) {
    if( group < groupList.size() ) {
-      DigitGroup& g = groupList[ group ];
-      Digit& d = g.digits[index];
+      const DigitGroup& g = groupList[ group ];
+      const Digit& d = g.digits[index];
       if( d.hasDots ) {
          resetDataBits( d.dotsGrid, d.dotsCode );
       }
@@ -415,6 +428,20 @@ void DisplayDef::setRoundSectorSectors( const int* idx_list ) {
 
 // Return internal data memory representation of the display memory.
 uint8_t* DisplayDef::getData() { return data; }
+
+// Return a list of grids that have changed with respect to the data array
+std::vector<uint8_t> DisplayDef::getDifferences( const uint8_t* other_data, const uint8_t len ) {
+   std::vector<uint8_t> vec;
+   if( len <= 22 ) {
+      uint8_t idx = 0;
+      while( idx != len ) {
+         if( other_data[idx] != data[idx] )
+            vec.push_back( idx );
+	 idx++;
+      }
+   }
+   return vec;
+}
 
 
 // Test

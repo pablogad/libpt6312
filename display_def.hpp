@@ -80,6 +80,7 @@ public:
    void resetSymbol( const SymbolId code );
    // Digits / "chars"
    void setDigits( const uint8_t group, const std::string& str, const uint8_t offset=0 );
+   void setDigitCustomData( const uint8_t group, const uint8_t offset, const uint8_t segment_bits );
    void resetDigit( const uint8_t group, const uint8_t offset, const uint8_t len=1 );
    void clearDigits();
    void setDots( const uint8_t group, const uint8_t index );
@@ -89,7 +90,8 @@ public:
    void setRoundSectorLevel( const uint8_t level );
    void setRoundSectorSectors( const int* index_list );
 
-   uint8_t* getData();  // Get buffer pointer
+   uint8_t* getData();  // Get buffer pointer. Length of buffer is 22 bytes.
+   std::vector<uint8_t> getDifferences( const uint8_t* other_buffer, const uint8_t len=22 );
 
    bool isLoaded();
 
