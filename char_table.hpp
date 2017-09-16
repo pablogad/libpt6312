@@ -4,20 +4,22 @@
 //
 // Format: bits for each segment
 //
-//           -----[BIT 6]-----
-//          |      +0x40      |
+//           -----[BIT 0]-----
+//          |      +0x01      |
 //          |                 |
-//       [BIT 5]+0x20      [BIT 4]+0x10
+//       [BIT 1]+0x02      [BIT 2]+0x04
 //          |                 |
 //          |                 |
 //           -----[BIT 3]-----        Binary data: 76543210b
 //          |      +0x08      |
 //          |                 |
-//       [BIT 2]+0x04      [BIT 1]+0x02
+//       [BIT 4]+0x10      [BIT 5]+0x20
 //          |                 |
 //          |                 |
-//           -----[BIT 0]-----
-//                 +0x01
+//           -----[BIT 6]-----
+//                 +0x40
+//
+//       [BIT 7] always 0
 
 const std::map<char,uint8_t> charToDisplayMap = {
    { ' ', 0 },
