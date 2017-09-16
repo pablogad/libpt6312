@@ -29,8 +29,8 @@ static const uint8_t PT6312_MEM_SIZE = 22;
 // Private functions
 
 // Nanoseconds delay
-static inline const void delayClock( const long nanos ) {
-   struct timespec request = { 0, nanos };
+static inline const void delayClock( const long micros ) {
+   struct timespec request = { 0, micros*1000 };
    struct timespec remain;
    while( clock_nanosleep( CLOCK_MONOTONIC, 0, &request, &remain ) != 0 ) {
        if( errno != EINTR ) break;
