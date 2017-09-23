@@ -80,6 +80,7 @@ public:
    void resetSymbol( const SymbolId code );
    // Digits / "chars"
    void setDigits( const uint8_t group, const std::string& str, const uint8_t offset=0 );
+   void setDigits( const std::string& str, const uint8_t offset=0 );
    void setDigitCustomData( const uint8_t group, const uint8_t offset, const uint8_t segment_bits );
    void resetDigit( const uint8_t group, const uint8_t offset, const uint8_t len=1 );
    void clearDigits();

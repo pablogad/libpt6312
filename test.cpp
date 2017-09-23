@@ -98,6 +98,15 @@ int main( int argc, char* argv[] ) {
 	 setCharacter( display, c);
          sleep(1);
       }
+      display.resetDigit(0,1);
+      const uint8_t collection[] = { 5 };
+      updateDisplayPartial( display.getData(),collection,1);
+
+      cout << "Showing test crossing group boundaries" << endl;
+
+      display.clearDigits();
+      display.setDigits( "APABLOIIII", 1 );
+      updateDisplay( display.getData(),0,12 );
    }
    else {
       cout << "Cannot load display definition file!" << endl;

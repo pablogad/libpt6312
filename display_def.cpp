@@ -361,6 +361,45 @@ void DisplayDef::setDigits( const uint8_t group, const std::string& str, const u
    }
 }
 
+// Write digits by position. The position is counted starting in the first group (G0) and
+// increases until the number of digits of the group are filled, then continues on to
+// the next group, and so on.
+// Tries to translate characters to something meaningful if possible.
+// Excess characters on str are ignored.
+//    offset: initial digit counting from digit 0 on group 0
+void DisplayDef::setDigits( const std::string& str, const uint8_t offset ) {
+
+   uint8_t group = 0;
+   int current_digit = static_cast<int>( offset );
+   DigitGroup& g = groupList[ group ];
+
+   // Look for the initial group and digit at offset
+   while( 1 ) {
+      if( current_digit < g.digits.size() ) break;  // Found!
+      current_digit -= g.digits.size();
+      group++;
+      if( group >= groupList.size() ) break;
+      g = groupList[ group ];
+   }
+
+   // Transfer chars starting at group/current_digit
+   for( char c : str ) {
+      if( current_digit >= g.digits.size() ) {
+
+         // All chars of the group transferred, go onto the next group
+         group++;
+
+       	 // Exit if no more groups
+         if( group >= groupList.size() ) break;
+
+         g = groupList[ group ];
+         current_digit = 0;  // First digit in the next group
+      }
+      const Digit& d = g.digits[ current_digit++ ];
+      setChar( d, translateChar(c) );
+   }
+}
+
 // Write a digit of a group specifying the segments of the digit to lit.
 // See display_def.hpp to see the bit field values needed to set every segment.
 void DisplayDef::setDigitCustomData( const uint8_t group, const uint8_t offset, const uint8_t segment_bits ) {
