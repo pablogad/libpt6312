@@ -141,6 +141,10 @@ DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
                else if( command == "SegHorDn" ) {
                   currentDigit.segments[6] = segcode;
                }
+               else if( command == "SegAdd" ) {
+                  currentDigit.segments[7] = segcode;
+                  currentDigit.hasAdd = true;
+               }
                else throw std::runtime_error( "Invalid token " + command );
             }
             else if( command.substr(0,4) == "Dots" ) {
@@ -197,6 +201,11 @@ DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
                     else if( symStr == "Camera" ) { newSym.symbolCode = SymbolId::SYM_Camera; }
                     else if( symStr == "PBC" ) { newSym.symbolCode = SymbolId::SYM_PBC; }
                     else if( symStr == "MP3" ) { newSym.symbolCode = SymbolId::SYM_MP3; }
+                    else if( symStr == "VCD" ) { newSym.symbolCode = SymbolId::SYM_VCD; }
+                    else if( symStr == "TOTAL" ) { newSym.symbolCode = SymbolId::SYM_TOTAL; }
+                    else if( symStr == "PROG" ) { newSym.symbolCode = SymbolId::SYM_PROG; }
+                    else if( symStr == "Pair" ) { newSym.symbolCode = SymbolId::SYM_PAIR; }
+                    else if( symStr == "Lock" ) { newSym.symbolCode = SymbolId::SYM_LOCK; }
                     else throw std::runtime_error( "Undefined symbol " + command + ". Add new symbols to source code as needed" );
                   } catch( std::invalid_argument& e ) {
                       throw std::runtime_error( "Invalid number in symbol " + command );

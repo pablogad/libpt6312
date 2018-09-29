@@ -17,26 +17,36 @@ enum class SymbolId : uint8_t { SYM_DVD=1,
                                 SYM_DolbyD=10,
                                 SYM_Camera=11,
                                 SYM_PBC=12,
-                                SYM_MP3=13 };
+                                SYM_MP3=13,
+                                SYM_VCD=14,
+                                SYM_TOTAL=15,
+                                SYM_PROG=16,
+                                SYM_PAIR=17,
+                                SYM_LOCK=18 };
 
 // Possible colors
 enum class ColorId : uint8_t { White=0, Red=1, Yellow=2, Orange=3 };
 
 
 // Definition of a digit
-typedef struct {
+typedef struct _Digit {
+
+   _Digit() : hasAdd( false ), hasDots( false ) {}
+
    uint8_t grid;          // Grid 0..n
-   uint16_t segments[7];  // Order: Up,UpLeft,UpRight,Med,DnLeft,DnRight,Dn
+   uint16_t segments[8];  // Order: Up,UpLeft,UpRight,Med,DnLeft,DnRight,Dn,Add
                           //     ---Up---
                           //    |        |
-                          // UpRight  UpLeft
+                          // UpLeft   UpRight
                           //    |        |
                           //    |---Med--|
                           //    |        |
-                          // DnRight  DnLeft
+                          // DnLeft   DnRight
                           //    |        |
                           //     ---Dn---
+                          // Add: vertical or slash bar if any (hasAdd true)
 
+   bool hasAdd;
    bool hasDots;
    uint8_t dotsGrid;
    uint16_t dotsCode;  // Only if its got dots

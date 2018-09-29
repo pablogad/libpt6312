@@ -1,0 +1,120 @@
+# Display model definition
+#
+# VFD from Airis DVD
+#
+# Each element format: g.dddd
+# - g: grid: 0..8. First grid is first on memory (rightmost)
+# - dddd: hex value of segment on the grid g
+#
+# The digits and dots are defined in visual order, meaning from left to right.
+#
+Begin VfdAiris
+RoundSector
+   Sec1  5.0008    # Upper sector (12 o'clock)
+   Sec2  5.0004
+   Sec3  5.0002
+   Sec4  5.0001
+   Sec5  5.8000
+   Sec6  5.4000
+   Sec7  5.2000
+   Sec8  5.1000
+   Sec9  5.0800
+   Sec10 5.0400
+   Sec11 5.0200
+   Sec12 5.0100
+DigitsGroup1
+   Digit1
+      SegHorUp  3.4000  #   _
+      SegVerUpL 3.1000  #  |
+      SegVerUpR 3.2000  #    |
+      SegHorMed 3.0800  #   -
+      SegVerDnL 3.0200  #  |
+      SegVerDnR 3.0400  #    |
+      SegHorDn  3.0100  #   _
+      SegAdd    3.0001  #  Vertical line inside digit
+   Digit2
+      SegHorUp  3.0080
+      SegVerUpL 3.0020
+      SegVerUpR 3.0040
+      SegHorMed 3.0010
+      SegVerDnL 3.0004
+      SegVerDnR 3.0008
+      SegHorDn  3.0002
+   Digit3
+      SegHorUp  2.4000
+      SegVerUpL 2.1000
+      SegVerUpR 2.2000
+      SegHorMed 2.0800
+      SegVerDnL 2.0200
+      SegVerDnR 2.0400
+      SegHorDn  2.0100
+      SegAdd    2.0001  # Slash line inside digit
+   Digit4
+      SegHorUp  2.0080
+      SegVerUpL 2.0020
+      SegVerUpR 2.0040
+      SegHorMed 2.0010
+      SegVerDnL 2.0004
+      SegVerDnR 2.0008
+      SegHorDn  2.0002
+DigitsGroup2
+   Digit1
+      SegHorUp  1.4000
+      SegVerUpL 1.1000
+      SegVerUpR 1.2000
+      SegHorMed 1.0800
+      SegVerDnL 1.0200
+      SegVerDnR 1.0400
+      SegHorDn  1.0100
+   Dots1  2.8000  # : after the digit
+   Digit2
+      SegHorUp  1.0080
+      SegVerUpL 1.0020
+      SegVerUpR 1.0040
+      SegHorMed 1.0010
+      SegVerDnL 1.0004
+      SegVerDnR 1.0008
+      SegHorDn  1.0002
+   Digit3
+      SegHorUp  0.4000
+      SegVerUpL 0.1000
+      SegVerUpR 0.2000
+      SegHorMed 0.0800
+      SegVerDnL 0.0200
+      SegVerDnR 0.0400
+      SegHorDn  0.0100
+   Dots2  1.8000  # : after the digit
+   Digit4
+      SegHorUp  0.0080
+      SegVerUpL 0.0020
+      SegVerUpR 0.0040
+      SegHorMed 0.0010
+      SegVerDnL 0.0004
+      SegVerDnR 0.0008
+      SegHorDn  0.0002
+   Digit5
+      SegHorUp  4.0080
+      SegVerUpL 4.0020
+      SegVerUpR 4.0040
+      SegHorMed 4.0010
+      SegVerDnL 4.0004
+      SegVerDnR 4.0008
+      SegHorDn  4.0002
+# Symbol user code and display value (grid.seg)
+SymbolDvd    1,5.0080
+SymbolDts    2,4.0200
+SymbolCD     5,5.0040
+SymbolPlay   6,4.2000
+SymbolPause  7,4.1000
+SymbolALL    8,4.8000
+SymbolLoop   9,4.4000
+SymbolDolbyD 10,4.0100
+SymbolCamera 11,4.0001
+SymbolMP3    13,5.0010
+SymbolVCD    14,5.0020
+SymbolTOTAL  15,1.0001
+SymbolPROG   16,0.0001
+SymbolPair   17,4.0800
+SymbolLock   18,4.0400
+
+End VfdAiris

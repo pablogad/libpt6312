@@ -24,8 +24,16 @@ static void setCharacter( DisplayDef& display, const char c ) {
 int main( int argc, char* argv[] ) {
 
    init_pt6312();
+   std::string display_def( "display_defs/vfd1.def" );
 
-   DisplayDef display( "vfd1.def" );
+   // A definition file can be specified
+   if( argc == 2 ) {
+      display_def.assign( argv[1] );
+   }
+
+   cout << "Display definition file: " << display_def << endl;
+
+   DisplayDef display( display_def.c_str() );
    if( display.isLoaded() == true ) {
 
       for( int i=1; i<=13; i++ ) {
