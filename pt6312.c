@@ -29,7 +29,7 @@ static const uint8_t PT6312_MEM_SIZE = 22;
 // Private functions
 
 // Nanoseconds delay
-static inline const void delayClock( const long micros ) {
+static inline void delayClock( const long micros ) {
    struct timespec request = { 0, micros*1000 };
    struct timespec remain;
    while( clock_nanosleep( CLOCK_MONOTONIC, 0, &request, &remain ) != 0 ) {
@@ -39,13 +39,13 @@ static inline const void delayClock( const long micros ) {
 }
 
 // Handle STB line
-static inline const void STB_UP() {
+static inline void STB_UP() {
    #if _DBG 
    printf( "STB HIGH\n" );
    #endif
    bcm2835_gpio_set( STB_PIN );
 }
-static inline const void STB_DN() {
+static inline void STB_DN() {
    #if _DBG 
    printf( "STB LOW\n" );
    #endif
@@ -53,14 +53,14 @@ static inline const void STB_DN() {
 }
 
 // Handle CLK line
-static inline const void CLK_UP() {
+static inline void CLK_UP() {
    #if _DBG 
    printf( "CLK HIGH\n" );
    #endif
    delayClock( HWAIT_DLY );   // Needed for it to work - shouldn't! - investigate further
    bcm2835_gpio_set( CLK_PIN );
 }
-static inline const void CLK_DN() {
+static inline void CLK_DN() {
    #if _DBG 
    printf( "CLK LOW\n" );
    #endif
@@ -69,7 +69,7 @@ static inline const void CLK_DN() {
 }
 
 // 1 us min delay - period with STB high, CLK is pulled up
-static inline const void twait() {
+static inline void twait() {
    #if _DBG 
    printf( "TWAIT\n" );
    #endif
@@ -77,7 +77,7 @@ static inline const void twait() {
    delayClock( TWAIT_DLY );
 }
 // .5 us min delay - period between CLK transitions
-static inline const void hwait() {
+static inline void hwait() {
    #if _DBG 
    printf( "HWAIT\n" );
    #endif
@@ -94,7 +94,7 @@ static inline void strobeDelay() {
 }
 
 // Send bit 0 of b. STB must be LOW.
-static inline const void sendBit( uint8_t b ) {
+static inline void sendBit( uint8_t b ) {
    CLK_DN();
    hwait();
    #if _DBG 
@@ -368,16 +368,16 @@ void updateDisplay( const uint8_t* data, const uint8_t offset, uint8_t len ) {
 #endif
 
    // Read keys
-//#if _DBG
+#if _DBG
    printf( "----------- BEGIN READ KEYS\n" ); 
    printf( "-- CMD2: DATA_SET[READ_KEYS]\n" );
-//#endif
+#endif
    readKeys( keys_buffer );
-//#if _DBG
+#if _DBG
    printf( "  READ[%02X%02X%02X]\n",
            keys_buffer[0], keys_buffer[1], keys_buffer[2] ); 
    printf( "----------- END READ KEYS\n" ); 
-//#endif
+#endif
 
    // Write leds
 #if _DBG

@@ -9,3 +9,6 @@ add_library(${PROJECT_NAME} STATIC ${SRC_LIB})
 
 add_executable (test_pt6312 test.cpp)
 target_link_libraries (test_pt6312 pt6312 bcm2835)
+
+add_executable (create_disp create_disp.c)
+target_link_libraries (create_disp pt6312 bcm2835)
