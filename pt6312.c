@@ -17,10 +17,10 @@ static const uint8_t PT6312_MEM_SIZE = 22;
 
 
 // GPIO pins
-#define IR_PIN  RPI_GPIO_P1_15
-#define CLK_PIN RPI_GPIO_P1_23
-#define STB_PIN RPI_GPIO_P1_24
-#define DIO_PIN RPI_GPIO_P1_19
+#define IR_PIN  RPI_V2_GPIO_P1_15
+#define CLK_PIN RPI_V2_GPIO_P1_23
+#define STB_PIN RPI_V2_GPIO_P1_24
+#define DIO_PIN RPI_V2_GPIO_P1_19
 
 #define TWAIT_DLY 2              // A delay period (strobe time) (us)
 #define HWAIT_DLY TWAIT_DLY/2    // Half a delay period (clk transition) (us)
@@ -368,16 +368,16 @@ void updateDisplay( const uint8_t* data, const uint8_t offset, uint8_t len ) {
 #endif
 
    // Read keys
-#if _DBG
+//#if _DBG
    printf( "----------- BEGIN READ KEYS\n" ); 
    printf( "-- CMD2: DATA_SET[READ_KEYS]\n" );
-#endif
+//#endif
    readKeys( keys_buffer );
-#if _DBG
+//#if _DBG
    printf( "  READ[%02X%02X%02X]\n",
            keys_buffer[0], keys_buffer[1], keys_buffer[2] ); 
    printf( "----------- END READ KEYS\n" ); 
-#endif
+//#endif
 
    // Write leds
 #if _DBG

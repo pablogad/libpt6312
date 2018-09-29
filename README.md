@@ -20,7 +20,23 @@ and segments definition for this particular display is contained in the vfd1.def
 
   test.cpp        : example showing the capabilities of the display.
 
-## Compilation (library and example)
+Also a tool to find out the data for new displays is provided. It has a continuous loop
+requesting for a grid and a value. The program will activate only the segments specified
+by the value on the entered grid. The value is a 16 bit integer and each bit will lit a
+single segment on the grid when its value is 1.
+
+  create_display.c
+
+When a grid value of 0 is entered, the program ends. The value can be a decimal number or
+an hex number, when 0xHHHH syntax is used.
+
+Once you have the values for all the segments, you can create your own .def file for the
+display. In this file, the grid numbers starts at 0, while in create_display the first
+grid is 1, you will have to substract one from the grid values. The format for every
+segment is G.HHHH where G=grid, HHHH=hex value of the segment.
+
+
+## Compilation (library, tools and example)
 
 mkdir build
 
