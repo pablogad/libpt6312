@@ -16,6 +16,24 @@ int main( int argc, char* argv[] ) {
 
    printf( "=== DISPLAY TEST ===\n\n" );
 
+   // Mode: show all grids activated
+   if( argc == 2 ) {
+      if( !strcmp( argv[1], "--all-grids") ) {
+         memset(data,255,22);
+         updateDisplay( data, 0, 22 );
+      }
+      else if( !strcmp( argv[1], "--clear") ) {
+         memset(data,0,22);
+         updateDisplay( data, 0, 22 );
+      }
+      else if( !strcmp( argv[1], "--help") || !strcmp( argv[1], "-h" ) ) {
+         printf( "Usage:\n   --all-grids: show all grids activated\n"
+                 "   --clear: deactivate all grids\n"
+                 "   --help: show this text\n\n"
+                 "   No parameters: test individual grids interactively\n\n" );
+      }
+   }
+   else
    while(1) {
 
       memset(data,0,22);
