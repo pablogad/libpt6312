@@ -35,6 +35,10 @@ display. In this file, the grid numbers starts at 0, while in create_display the
 grid is 1, you will have to substract one from the grid values. The format for every
 segment is G.HHHH where G=grid, HHHH=hex value of the segment.
 
+When executed with parameters,
+   --all-grids: turns on all the segments in all the grids on the display.
+   --clear    : turns off all the grids/segments on the display.
+   --help     : prints a help message showing the options.
 
 ## Compilation (library, tools and example)
 
@@ -46,7 +50,8 @@ cmake .. && make ; cd -
 
 
 The example looks for the vfd1.def file on the current directory, so it should be run
-from the directory where the file is located.
+from the directory where the file is located. Additionally, you can pass a display
+definition file name (.def) with any valid path.
 
 ## External dependencies
 
