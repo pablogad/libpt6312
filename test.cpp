@@ -11,6 +11,7 @@ extern "C" {
 using std::cout;
 using std::endl;
 
+
 static void setCharacter( DisplayDef& display, const char c ) {
    display.clearDigits();
    std::string g1( 2, c );
@@ -42,6 +43,7 @@ int main( int argc, char* argv[] ) {
 
          display.setRoundSectorLevel(i);
          display.setSymbol(i);
+
          updateDisplay( display.getData(),0,12 );
          sleep(1);
       }
@@ -124,4 +126,3 @@ int main( int argc, char* argv[] ) {
 
    return 0;
 }
-

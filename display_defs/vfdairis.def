@@ -10,111 +10,111 @@
 #
 Begin VfdAiris
 RoundSector
-   Sec1  5.0008    # Upper sector (12 o'clock)
-   Sec2  5.0004
-   Sec3  5.0002
-   Sec4  5.0001
-   Sec5  5.8000
-   Sec6  5.4000
-   Sec7  5.2000
-   Sec8  5.1000
-   Sec9  5.0800
-   Sec10 5.0400
-   Sec11 5.0200
-   Sec12 5.0100
+   Sec1  5.0800    # Upper sector (12 o'clock)
+   Sec2  5.0400
+   Sec3  5.0200
+   Sec4  5.0100
+   Sec5  5.0080
+   Sec6  5.0040
+   Sec7  5.0020
+   Sec8  5.0010
+   Sec9  5.0008
+   Sec10 5.0004
+   Sec11 5.0002
+   Sec12 5.0001
 DigitsGroup1
    Digit1
-      SegHorUp  3.4000  #   _
-      SegVerUpL 3.1000  #  |
-      SegVerUpR 3.2000  #    |
-      SegHorMed 3.0800  #   -
-      SegVerDnL 3.0200  #  |
-      SegVerDnR 3.0400  #    |
-      SegHorDn  3.0100  #   _
-      SegAdd    3.0001  #  Vertical line inside digit
+      SegHorUp  3.0040  #   _
+      SegVerUpL 3.0010  #  |
+      SegVerUpR 3.0020  #    |
+      SegHorMed 3.0008  #   -
+      SegVerDnL 3.0002  #  |
+      SegVerDnR 3.0004  #    |
+      SegHorDn  3.0001  #   _
+      SegAdd    3.0100  #  Vertical line inside digit
    Digit2
-      SegHorUp  3.0080
-      SegVerUpL 3.0020
-      SegVerUpR 3.0040
-      SegHorMed 3.0010
-      SegVerDnL 3.0004
-      SegVerDnR 3.0008
-      SegHorDn  3.0002
+      SegHorUp  3.8000
+      SegVerUpL 3.2000
+      SegVerUpR 3.4000
+      SegHorMed 3.1000
+      SegVerDnL 3.0400
+      SegVerDnR 3.0800
+      SegHorDn  3.0200
    Digit3
-      SegHorUp  2.4000
-      SegVerUpL 2.1000
-      SegVerUpR 2.2000
-      SegHorMed 2.0800
-      SegVerDnL 2.0200
-      SegVerDnR 2.0400
-      SegHorDn  2.0100
-      SegAdd    2.0001  # Slash line inside digit
+      SegHorUp  2.0040
+      SegVerUpL 2.0010
+      SegVerUpR 2.0020
+      SegHorMed 2.0008
+      SegVerDnL 2.0002
+      SegVerDnR 2.0004
+      SegHorDn  2.0001
+      SegAdd    2.0100  # Slash line inside digit
    Digit4
-      SegHorUp  2.0080
-      SegVerUpL 2.0020
-      SegVerUpR 2.0040
-      SegHorMed 2.0010
-      SegVerDnL 2.0004
-      SegVerDnR 2.0008
-      SegHorDn  2.0002
+      SegHorUp  2.8000
+      SegVerUpL 2.2000
+      SegVerUpR 2.4000
+      SegHorMed 2.1000
+      SegVerDnL 2.0400
+      SegVerDnR 2.0800
+      SegHorDn  2.0200
 DigitsGroup2
    Digit1
-      SegHorUp  1.4000
-      SegVerUpL 1.1000
-      SegVerUpR 1.2000
-      SegHorMed 1.0800
-      SegVerDnL 1.0200
-      SegVerDnR 1.0400
-      SegHorDn  1.0100
-   Dots1  2.8000  # : after the digit
+      SegHorUp  1.0040
+      SegVerUpL 1.0010
+      SegVerUpR 1.0020
+      SegHorMed 1.0008
+      SegVerDnL 1.0002
+      SegVerDnR 1.0004
+      SegHorDn  1.0001
+   Dots1  2.0080  # : after the digit
    Digit2
-      SegHorUp  1.0080
-      SegVerUpL 1.0020
-      SegVerUpR 1.0040
-      SegHorMed 1.0010
-      SegVerDnL 1.0004
-      SegVerDnR 1.0008
-      SegHorDn  1.0002
+      SegHorUp  1.8000
+      SegVerUpL 1.2000
+      SegVerUpR 1.4000
+      SegHorMed 1.1000
+      SegVerDnL 1.0400
+      SegVerDnR 1.0800
+      SegHorDn  1.0200
    Digit3
-      SegHorUp  0.4000
-      SegVerUpL 0.1000
-      SegVerUpR 0.2000
-      SegHorMed 0.0800
-      SegVerDnL 0.0200
-      SegVerDnR 0.0400
-      SegHorDn  0.0100
-   Dots2  1.8000  # : after the digit
+      SegHorUp  0.0040
+      SegVerUpL 0.0010
+      SegVerUpR 0.0020
+      SegHorMed 0.0008
+      SegVerDnL 0.0002
+      SegVerDnR 0.0004
+      SegHorDn  0.0001
+   Dots2  1.0080  # : after the digit
    Digit4
-      SegHorUp  0.0080
-      SegVerUpL 0.0020
-      SegVerUpR 0.0040
-      SegHorMed 0.0010
-      SegVerDnL 0.0004
-      SegVerDnR 0.0008
-      SegHorDn  0.0002
+      SegHorUp  0.8000
+      SegVerUpL 0.2000
+      SegVerUpR 0.4000
+      SegHorMed 0.1000
+      SegVerDnL 0.0400
+      SegVerDnR 0.0800
+      SegHorDn  0.0200
    Digit5
-      SegHorUp  4.0080
-      SegVerUpL 4.0020
-      SegVerUpR 4.0040
-      SegHorMed 4.0010
-      SegVerDnL 4.0004
-      SegVerDnR 4.0008
-      SegHorDn  4.0002
+      SegHorUp  4.8000
+      SegVerUpL 4.2000
+      SegVerUpR 4.4000
+      SegHorMed 4.1000
+      SegVerDnL 4.0400
+      SegVerDnR 4.0800
+      SegHorDn  4.0200
 # Symbol user code and display value (grid.seg)
-SymbolDvd    1,5.0080
-SymbolDts    2,4.0200
-SymbolCD     5,5.0040
-SymbolPlay   6,4.2000
-SymbolPause  7,4.1000
-SymbolALL    8,4.8000
-SymbolLoop   9,4.4000
-SymbolDolbyD 10,4.0100
-SymbolCamera 11,4.0001
-SymbolMP3    13,5.0010
-SymbolVCD    14,5.0020
-SymbolTOTAL  15,1.0001
-SymbolPROG   16,0.0001
-SymbolPair   17,4.0800
-SymbolLock   18,4.0400
+SymbolDvd    1,5.8000
+SymbolDts    2,4.0002
+SymbolCD     5,5.4000
+SymbolPlay   6,4.0020
+SymbolPause  7,4.0010
+SymbolALL    8,4.0080
+SymbolLoop   9,4.0040
+SymbolDolbyD 10,4.0001
+SymbolCamera 11,4.0100
+SymbolMP3    13,5.1000
+SymbolVCD    14,5.2000
+SymbolTOTAL  15,1.0100
+SymbolPROG   16,0.0100
+SymbolPair   17,4.0008
+SymbolLock   18,4.0004
 
 End VfdAiris

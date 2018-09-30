@@ -10,9 +10,30 @@
 
 static const uint8_t PT6312_MEM_SIZE = 22;
 
+// Stdout debug info:
+// Level 0 : no trace
+// Level 1 : trace
+// Level 2 : debug
 #define _DBG 0
+
 #if _DBG
 #include <stdio.h>
+
+void hexdmp( uint8_t* data, int len ) {
+   while( len ) {
+      int b=0;
+      while( b<(len<0x10?len:0x10) ) {
+         printf( "%02X ", data[b] );
+         b++;
+      }
+      data += 0x10;
+      printf ("\n");
+      if( len>0x10 ) len -= 0x10;
+      else len=0;
+   }
+   printf ("\n");
+}
+
 #endif
 
 
@@ -40,13 +61,13 @@ static inline void delayClock( const long micros ) {
 
 // Handle STB line
 static inline void STB_UP() {
-   #if _DBG 
+   #if _DBG>2
    printf( "STB HIGH\n" );
    #endif
    bcm2835_gpio_set( STB_PIN );
 }
 static inline void STB_DN() {
-   #if _DBG 
+   #if _DBG>2
    printf( "STB LOW\n" );
    #endif
    bcm2835_gpio_clr( STB_PIN );
@@ -54,14 +75,14 @@ static inline void STB_DN() {
 
 // Handle CLK line
 static inline void CLK_UP() {
-   #if _DBG 
+   #if _DBG>2
    printf( "CLK HIGH\n" );
    #endif
    delayClock( HWAIT_DLY );   // Needed for it to work - shouldn't! - investigate further
    bcm2835_gpio_set( CLK_PIN );
 }
 static inline void CLK_DN() {
-   #if _DBG 
+   #if _DBG>2
    printf( "CLK LOW\n" );
    #endif
    delayClock( HWAIT_DLY );   // Needed for it to work - shouldn't!
@@ -70,7 +91,7 @@ static inline void CLK_DN() {
 
 // 1 us min delay - period with STB high, CLK is pulled up
 static inline void twait() {
-   #if _DBG 
+   #if _DBG>2
    printf( "TWAIT\n" );
    #endif
    //bcm2835_delayMicroseconds( TWAIT_DLY );
@@ -78,7 +99,7 @@ static inline void twait() {
 }
 // .5 us min delay - period between CLK transitions
 static inline void hwait() {
-   #if _DBG 
+   #if _DBG>2
    printf( "HWAIT\n" );
    #endif
    //bcm2835_delayMicroseconds( HWAIT_DLY );
@@ -97,7 +118,7 @@ static inline void strobeDelay() {
 static inline void sendBit( uint8_t b ) {
    CLK_DN();
    hwait();
-   #if _DBG 
+   #if _DBG>2
    printf( "  SEND BIT(%c)\n", b&1 ? '1':'0');
    #endif
    if( b&1 )  bcm2835_gpio_set( DIO_PIN ); 
@@ -338,6 +359,7 @@ void updateDisplay( const uint8_t* data, const uint8_t offset, uint8_t len ) {
    if( offset+len > PT6312_MEM_SIZE ) return;
 
 #if _DBG
+      hexdmp( (uint8_t*)&data[offset], len );
       printf( "-- CMD2: DATA_SET[WR_TO_DISPLAY]\n" );
 #endif
    sendByte( DATA_SET_CMD | WR_TO_DISPLAY | INC_ADDRESS );

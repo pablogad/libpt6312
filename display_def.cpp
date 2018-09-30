@@ -263,26 +263,38 @@ inline void DisplayDef::resetDataBits( const uint8_t grid, const uint16_t code )
 
 // Write a symbol to the display memory if it exists
 void DisplayDef::setSymbol( const SymbolId code ) {
-   for( Symbol sym : symbols )
-      if( sym.symbolCode == code )
+   for( Symbol sym : symbols ) {
+      if( sym.symbolCode == code ) {
          setDataBits( sym.grid, sym.code );
+         break;
+      }
+   }
 }
 void DisplayDef::setSymbol( const uint8_t usercode ) {
-   for( Symbol sym : symbols )
-      if( sym.usercode == usercode )
+   for( Symbol sym : symbols ) {
+      if( sym.usercode == usercode ) {
          setDataBits( sym.grid, sym.code );
+         break;
+      }
+   }
 }
 
 // Delete a symbol from the display memory
 void DisplayDef::resetSymbol( const SymbolId code ) {
-   for( Symbol sym : symbols )
-      if( sym.symbolCode == code )
+   for( Symbol sym : symbols ) {
+      if( sym.symbolCode == code ) {
          resetDataBits( sym.grid, sym.code );
+         break;
+      }
+   }
 }
 void DisplayDef::resetSymbol( const uint8_t usercode ) {
-   for( Symbol sym : symbols )
-      if( sym.usercode == usercode )
+   for( Symbol sym : symbols ) {
+      if( sym.usercode == usercode ) {
          resetDataBits( sym.grid, sym.code );
+         break;
+      }
+   }
 }
 
 // Write a character to the display memory
