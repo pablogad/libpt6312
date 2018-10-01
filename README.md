@@ -50,7 +50,7 @@ cmake .. && make ; cd -
 
 
 The example looks for the vfd1.def file on the current directory, so it should be run
-from the directory where the file is located. Additionally, you can pass a display
+from the directory where the file is located. Alternatively, you can pass a display
 definition file name (.def) with any valid path.
 
 ## External dependencies
