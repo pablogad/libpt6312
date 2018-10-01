@@ -100,6 +100,9 @@ public:
    void clearRoundSector();
    void setRoundSectorLevel( const uint8_t level );
    void setRoundSectorSectors( const int* index_list );
+   // Digit groups
+   uint8_t getNumberOfGroups();
+   uint8_t getNumberOfDigitsOnGroup( const uint8_t group );
 
    uint8_t* getData();  // Get buffer pointer. Length of buffer is 22 bytes.
    std::vector<uint8_t> getDifferences( const uint8_t* other_buffer, const uint8_t len=22 );

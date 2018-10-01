@@ -11,15 +11,15 @@ extern "C" {
 using std::cout;
 using std::endl;
 
-
 static void setCharacter( DisplayDef& display, const char c ) {
    display.clearDigits();
-   std::string g1( 2, c );
-   std::string g2( 5, c );
-   display.setDigits(0, g1);
-   display.setDigits(1, g2);
+   for( uint8_t g=0; g<display.getNumberOfGroups(); g++ ) {
+      std::string gs( display.getNumberOfDigitsOnGroup( g ), c );
+      display.setDigits( g, gs );
+   }
    updateDisplay( display.getData(),0,12);
 }
+
 
 // Test
 int main( int argc, char* argv[] ) {
@@ -54,6 +54,7 @@ int main( int argc, char* argv[] ) {
          char dig = (i>9 ? 0:i) + '0';
          cout << "Erasing symbol " << i << " and setting all digits to " << dig << endl;
 
+//
          display.resetSymbol(i);
          g1.assign( 2, dig );
          g2.assign( 5, dig );
@@ -68,6 +69,7 @@ int main( int argc, char* argv[] ) {
 
       cout << "Removing digits and setting to new values plus dots" << endl;
 
+//
       display.resetDigit(0, 0, 2);
       display.resetDigit(1, 0, 5);
       display.setDigits(0, "33");

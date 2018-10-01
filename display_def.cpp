@@ -301,13 +301,14 @@ void DisplayDef::resetSymbol( const uint8_t usercode ) {
 void DisplayDef::setChar( const Digit& d, const uint8_t v ) {
    int address = d.grid * 2;
    uint16_t segments = 0;  // The two bytes to combine with the grid
-   if( v&1 ) segments += d.segments[0];
-   if( v&2 ) segments += d.segments[1];
-   if( v&4 ) segments += d.segments[2];
-   if( v&8 ) segments += d.segments[3];
-   if( v&16 ) segments += d.segments[4];
-   if( v&32 ) segments += d.segments[5];
-   if( v&64 ) segments += d.segments[6];
+   if( v&1 )   segments += d.segments[0];
+   if( v&2 )   segments += d.segments[1];
+   if( v&4 )   segments += d.segments[2];
+   if( v&8 )   segments += d.segments[3];
+   if( v&16 )  segments += d.segments[4];
+   if( v&32 )  segments += d.segments[5];
+   if( v&64 )  segments += d.segments[6];
+   if( ( v&128 ) && d.hasAdd ) segments += d.segments[7];
    setDataBits( d.grid, segments );
 }
 
@@ -327,6 +328,7 @@ void DisplayDef::resetDigit( const uint8_t group, uint8_t index, uint8_t len ) {
          uint16_t segments = d.segments[0] + d.segments[1] + d.segments[2] + \
                              d.segments[3] + d.segments[4] + d.segments[5] + \
                              d.segments[6];
+         if( d.hasAdd ) segments += d.segments[7];
          resetDataBits( d.grid, segments );
       }
    }
@@ -339,6 +341,7 @@ void DisplayDef::clearDigits() {
           uint16_t segments = d.segments[0] + d.segments[1] + d.segments[2] + \
                               d.segments[3] + d.segments[4] + d.segments[5] + \
                               d.segments[6];
+          if( d.hasAdd ) segments += d.segments[7];
           resetDataBits( d.grid, segments );
        }
    }
@@ -486,6 +489,26 @@ void DisplayDef::setRoundSectorSectors( const int* idx_list ) {
    setDataBits( roundSec.grid, segments );
 }
 
+// Returns number of digit groups
+uint8_t DisplayDef::getNumberOfGroups() {
+   return groupList.size();
+}
+
+// Returns number of digits on a group. 0 if the group does not exist.
+uint8_t DisplayDef::getNumberOfDigitsOnGroup( const uint8_t group ) {
+
+   uint8_t val = 0;
+
+   if( group < groupList.size() ) {
+
+      const DigitGroup& g = groupList[ group ];
+
+      val = static_cast<uint8_t>( g.digits.size() );
+   }
+
+   return val;
+}
+
 // Return internal data memory representation of the display memory.
 uint8_t* DisplayDef::getData() { return data; }
 
@@ -503,11 +526,3 @@ std::vector<uint8_t> DisplayDef::getDifferences( const uint8_t* other_data, cons
    return vec;
 }
 
-
-// Test
-#if 0
-int main(int ac,char* av[]) {
-DisplayDef displayIgnoto( "vfd1.def" );
-return 0;
-}
-#endif
