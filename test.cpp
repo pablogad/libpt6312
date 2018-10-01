@@ -47,21 +47,19 @@ int main( int argc, char* argv[] ) {
          updateDisplay( display.getData(),0,12 );
          sleep(1);
       }
-      std::string g1;
-      std::string g2;
+
       for( int i=1; i<=13; i++ ) {
 
          char dig = (i>9 ? 0:i) + '0';
          cout << "Erasing symbol " << i << " and setting all digits to " << dig << endl;
 
-//
          display.resetSymbol(i);
-         g1.assign( 2, dig );
-         g2.assign( 5, dig );
-         display.resetDigit(0, 0, 2);
-         display.resetDigit(1, 0, 5);
-         display.setDigits(0, g1);
-         display.setDigits(1, g2);
+         for( uint8_t g=0; g<display.getNumberOfGroups(); g++ ) {
+            std::string gs( display.getNumberOfDigitsOnGroup( g ), dig );
+            display.resetDigit( g, 0, display.getNumberOfDigitsOnGroup( g ) );
+            display.setDigits( g, gs );
+         }
+
          updateDisplay( display.getData(),0,12 );
 
          sleep(1);
@@ -74,6 +72,7 @@ int main( int argc, char* argv[] ) {
       display.resetDigit(1, 0, 5);
       display.setDigits(0, "33");
       display.setDigits(1, "01234");
+//
       display.setDots(1,0);
       display.setDots(1,2);
       display.setRoundSectorLevel(11);
@@ -83,6 +82,7 @@ int main( int argc, char* argv[] ) {
 
       cout << "Removing dots and round sector" << endl;
 
+//
       display.removeDots(1,0);
       display.removeDots(1,2);
       display.clearRoundSector();
