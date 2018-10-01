@@ -1,0 +1,112 @@
+# Display model 1 definition
+#
+# Each element format: g.dddd
+# - g: grid: 0..8. First grid is first on memory (rightmost)
+# - dddd: hex value of segment on the grid g
+#
+# The digits and dots are defined in visual order, meaning from left to right.
+#
+Begin VfdBlueSky
+RoundSector
+   Sec1  4.0400    # Upper sector (12 o'clock)
+   Sec2  4.0800    # Double sectors on this one!
+   Sec3  4.1000
+   Sec4  4.2000
+   Sec5  4.0100
+   Sec6  4.0200
+DigitsGroup1
+   Digit1
+      SegHorUp  0.0080  #   _
+      SegVerUpL 0.0200  #  |
+      SegVerUpR 0.0100  #    |
+      SegHorMed 0.0400  #   -
+      SegVerDnL 0.1000  #  |
+      SegVerDnR 0.0800  #    |
+      SegHorDn  0.2000  #   _
+	  SegAdd    0.4000
+   Digit2
+      SegHorUp  0.0001
+      SegVerUpL 0.0004
+      SegVerUpR 0.0002
+      SegHorMed 0.0008
+      SegVerDnL 0.0020
+      SegVerDnR 0.0010
+      SegHorDn  0.0040
+   Digit3
+      SegHorUp  1.0080
+      SegVerUpL 1.0200
+      SegVerUpR 1.0100
+      SegHorMed 1.0400
+      SegVerDnL 1.1000
+      SegVerDnR 1.0800
+      SegHorDn  1.2000
+	  SegAdd    1.4000
+   Digit4
+      SegHorUp  1.0001
+      SegVerUpL 1.0004
+      SegVerUpR 1.0002
+      SegHorMed 1.0008
+      SegVerDnL 1.0020
+      SegVerDnR 1.0010
+      SegHorDn  1.0040
+DigitsGroup2
+   Digit1
+      SegHorUp  2.0001
+      SegVerUpL 2.0004
+      SegVerUpR 2.0002
+      SegHorMed 2.0008
+      SegVerDnL 2.0020
+      SegVerDnR 2.0010
+      SegHorDn  2.0040
+   Dots1  2.0080  # : after the digit
+   Digit2
+      SegHorUp  3.0001
+      SegVerUpL 3.0004
+      SegVerUpR 3.0002
+      SegHorMed 3.0008
+      SegVerDnL 3.0020
+      SegVerDnR 3.0010
+      SegHorDn  3.0040
+   Digit3
+      SegHorUp  4.0001
+      SegVerUpL 4.0004
+      SegVerUpR 4.0002
+      SegHorMed 4.0008
+      SegVerDnL 4.0020
+      SegVerDnR 4.0010
+      SegHorDn  4.0040
+   Dots2  4.0080
+   Digit4
+      SegHorUp  5.0080
+      SegVerUpL 5.0200
+      SegVerUpR 5.0100
+      SegHorMed 5.0400
+      SegVerDnL 5.1000
+      SegVerDnR 5.0800
+      SegHorDn  5.2000
+   Digit5
+      SegHorUp  5.0001
+      SegVerUpL 5.0004
+      SegVerUpR 5.0002
+      SegHorMed 5.0008
+      SegVerDnL 5.0020
+      SegVerDnR 5.0010
+      SegHorDn  5.0040
+# Symbol  user code and display value (grid.seg)
+SymbolDvd    1,2.1000
+SymbolS      3,2.4000
+SymbolVCD   14,2.2000
+SymbolPlay   6,4.0800
+SymbolPause  7,4.0400
+SymbolALL    8,2.0100
+SymbolLoop   9,2.0800
+SymbolDolbyD 10,4.0200
+SymbolPBC    12,4.8000
+** ANGLE
+** PROG
+** RAND
+** A-B
+** 1L/2R
+
+End VfdBlueSky
+
