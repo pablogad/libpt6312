@@ -9,6 +9,9 @@ The configuration of the VFD display in terms of grids and segments is specified
 The target static library libpt6312.a is composed of the following modules:
 
    pt6312.c        : low level GPIO interface using the libbcm2835 library.
+                     By default, the GPIO pins used are the same as the SPI interface
+                     of the raspberry pi. You can use any GPIOs modifying the constants
+                     inside this file (CLK_PIN, STB_PIN, DIO_PIN and IR_PIN).
    
    display_def.cpp : high level interface to manage the display data in user
                      friendly terms (symbols, characters, etc). This module
