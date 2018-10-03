@@ -39,9 +39,9 @@ void hexdmp( uint8_t* data, int len ) {
 
 // GPIO pins
 #define IR_PIN  RPI_V2_GPIO_P1_15
-#define CLK_PIN RPI_V2_GPIO_P1_23
-#define STB_PIN RPI_V2_GPIO_P1_24
-#define DIO_PIN RPI_V2_GPIO_P1_19
+#define CLK_PIN RPI_V2_GPIO_P1_16   // RPI_V2_GPIO_P1_23
+#define STB_PIN RPI_V2_GPIO_P1_18   // RPI_V2_GPIO_P1_24
+#define DIO_PIN RPI_V2_GPIO_P1_22   // RPI_V2_GPIO_P1_19
 
 #define TWAIT_DLY 2              // A delay period (strobe time) (us)
 #define HWAIT_DLY TWAIT_DLY/2    // Half a delay period (clk transition) (us)

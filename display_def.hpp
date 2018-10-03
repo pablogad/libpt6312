@@ -22,7 +22,13 @@ enum class SymbolId : uint8_t { SYM_DVD=1,
                                 SYM_TOTAL=15,
                                 SYM_PROG=16,
                                 SYM_PAIR=17,
-                                SYM_LOCK=18 };
+                                SYM_LOCK=18,
+                                SYM_ANGLE=19,
+                                SYM_RAND=20,
+                                SYM_A=21,
+                                SYM_MB=22,
+                                SYM_1L=23,
+                                SYM_2R=24 };
 
 // Possible colors
 enum class ColorId : uint8_t { White=0, Red=1, Yellow=2, Orange=3 };

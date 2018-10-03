@@ -206,7 +206,15 @@ DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
                     else if( symStr == "PROG" ) { newSym.symbolCode = SymbolId::SYM_PROG; }
                     else if( symStr == "Pair" ) { newSym.symbolCode = SymbolId::SYM_PAIR; }
                     else if( symStr == "Lock" ) { newSym.symbolCode = SymbolId::SYM_LOCK; }
-                    else throw std::runtime_error( "Undefined symbol " + command + ". Add new symbols to source code as needed" );
+                    else if( symStr == "ANGLE" ) { newSym.symbolCode = SymbolId::SYM_ANGLE; }
+                    else if( symStr == "PROG" ) { newSym.symbolCode = SymbolId::SYM_PROG; }
+                    else if( symStr == "RAND" ) { newSym.symbolCode = SymbolId::SYM_RAND; }
+                    else if( symStr == "A" ) { newSym.symbolCode = SymbolId::SYM_A; }
+                    else if( symStr == "MB" ) { newSym.symbolCode = SymbolId::SYM_MB; }
+                    else if( symStr == "1L" ) { newSym.symbolCode = SymbolId::SYM_1L; }
+                    else if( symStr == "2R" ) { newSym.symbolCode = SymbolId::SYM_2R; }
+
+                    else throw std::runtime_error( "Undefined symbol " + command + ", " + symStr + ". Add new symbols to source code as needed" );
                   } catch( std::invalid_argument& e ) {
                       throw std::runtime_error( "Invalid number in symbol " + command );
                   }
