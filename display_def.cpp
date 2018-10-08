@@ -270,6 +270,8 @@ inline void DisplayDef::resetDataBits( const uint8_t grid, const uint16_t code )
 }
 
 // Write a symbol to the display memory if it exists
+// (if the Symbol code, among the list defined on header file, is
+// declared on the definition file)
 void DisplayDef::setSymbol( const SymbolId code ) {
    for( Symbol sym : symbols ) {
       if( sym.symbolCode == code ) {
@@ -278,6 +280,8 @@ void DisplayDef::setSymbol( const SymbolId code ) {
       }
    }
 }
+// Write a symbol to the display memory if it exists, using
+// the user code declared on the definition file
 void DisplayDef::setSymbol( const uint8_t usercode ) {
    for( Symbol sym : symbols ) {
       if( sym.usercode == usercode ) {
@@ -287,7 +291,9 @@ void DisplayDef::setSymbol( const uint8_t usercode ) {
    }
 }
 
-// Delete a symbol from the display memory
+// Delete a symbol from the display memory by symbol code
+// If this code is declared on the definition file, it gets cleared
+// from the display
 void DisplayDef::resetSymbol( const SymbolId code ) {
    for( Symbol sym : symbols ) {
       if( sym.symbolCode == code ) {
@@ -296,6 +302,8 @@ void DisplayDef::resetSymbol( const SymbolId code ) {
       }
    }
 }
+// Delete a symbol from the display memory using the user code associated
+// to the symbol on the definition file
 void DisplayDef::resetSymbol( const uint8_t usercode ) {
    for( Symbol sym : symbols ) {
       if( sym.usercode == usercode ) {
@@ -305,7 +313,7 @@ void DisplayDef::resetSymbol( const uint8_t usercode ) {
    }
 }
 
-// Write a character to the display memory
+// Write a single character to the display memory
 void DisplayDef::setChar( const Digit& d, const uint8_t v ) {
    int address = d.grid * 2;
    uint16_t segments = 0;  // The two bytes to combine with the grid
@@ -520,7 +528,7 @@ uint8_t DisplayDef::getNumberOfDigitsOnGroup( const uint8_t group ) {
 // Return internal data memory representation of the display memory.
 uint8_t* DisplayDef::getData() { return data; }
 
-// Return a list of grids that have changed with respect to the data array
+// Return a list of grids that have changed in relation to the data array
 std::vector<uint8_t> DisplayDef::getDifferences( const uint8_t* other_data, const uint8_t len ) {
    std::vector<uint8_t> vec;
    if( len <= 22 ) {
