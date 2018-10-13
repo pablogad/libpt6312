@@ -104,6 +104,7 @@ public:
    void removeDots( const uint8_t group, const uint8_t index );
    // Round signal
    void clearRoundSector();
+   uint8_t getRoundSectorLevelCount();
    void setRoundSectorLevel( const uint8_t level );
    void setRoundSectorSectors( const int* index_list );
    // Digit groups

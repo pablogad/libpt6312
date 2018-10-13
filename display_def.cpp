@@ -482,6 +482,10 @@ void DisplayDef::clearRoundSector() {
    }
    resetDataBits( roundSec.grid, segments );
 }
+// Get number of levels of the RS
+uint8_t DisplayDef::getRoundSectorLevelCount() {
+   return roundSec.sectors.size();
+}
 // Set the number of sectors requested starting by 12 o'clock position
 void DisplayDef::setRoundSectorLevel( const uint8_t level ) {
    if( level <= roundSec.sectors.size() ) {
