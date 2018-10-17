@@ -2,10 +2,25 @@
 
 #include <cstdint>
 
+#include "display_def.hpp"
+
+
 // Animation control class
 class BaseAni {
 public:
-   // Definitions
+   // Animation type definitions
+   // For text animation:
+   //    ANI_REVEAL: show one character more on each frame
+   //    ANI_SCROLL: draw the text and displace it to the left on every frame
+   //    ANI_REBOUND: draw the text and displace to the left and then to the right
+   //                 when all the text was presented, then again to the left when
+   //                 the first character is reached
+   // For round sector animation:
+   //    ANI_REVEAL: show a new segment of the round sector in every frame
+   //    ANI_SCROLL: show a single segment and move to the next on every frame
+   //    ANI_REBOUND: show a new segment on every frame and start hiding one segment
+   //                 on every frame when all are shown; when all are turned off,
+   //                 start again.
    typedef enum { ANI_REVEAL,  // Reveal characters one by one
                   ANI_SCROLL,  // Scroll to left 
                   ANI_REBOUND  // Scroll side to side
@@ -29,4 +44,7 @@ public:
 
    // Get current step
    uint8_t get();
+
+   // Update data on the display. Does not refresh the display!
+   virtual void updateDisplay( DisplayDef& display );
 };

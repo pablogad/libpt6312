@@ -3,6 +3,11 @@
 
 void DisplayAni::tick() {
    // Advance a frame on the current animations
+   for( BaseAni& ani : animations ) {
+      ani.next();
+      uint8_t offset = ani.get();
+      
+   }
 }
 
 // Create a text animation effect of certain type
@@ -22,7 +27,7 @@ uint8_t DisplayAni::create_text_animation(const std::string& str,
       display_size = display.getNumberOfDigitsOnGroup( group );
    }
    if( t == BaseAni::ANI_REBOUND ) {
-      TextReboundAni newAni( str.size(), display_size );
+      TextReboundAni newAni( str, display_size, group );
       animations.push_back( newAni );
    }
    // else if ANI_SCROLL

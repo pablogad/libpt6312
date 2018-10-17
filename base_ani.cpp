@@ -13,3 +13,8 @@ void BaseAni::reset() {
 uint8_t BaseAni::get() {
    return step;
 }
+
+// Default update: do nothing
+void BaseAni::updateDisplay( DisplayDef& display ) {
+}
+

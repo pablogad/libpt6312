@@ -1,4 +1,5 @@
 #include "rebound_ani.hpp"
+#include "display_ani.hpp"
 
 uint8_t TextReboundAni::next() {
    // window_size : visible portion
@@ -17,3 +18,18 @@ uint8_t TextReboundAni::next() {
       }
    }
 }
+
+uint8_t TextReboundAni::getDisplayGroup() {
+   return display_group;
+}
+
+void TextReboundAni::updateDisplay( DisplayDef& display ) {
+   // Write currently visible portion of the text
+   if( display_group == DisplayAni::ALL_GROUPS ) {
+      display.setDigits(text, step);
+   }
+   else {
+      display.setDigits( display_group, text, step );
+   }
+}
+
