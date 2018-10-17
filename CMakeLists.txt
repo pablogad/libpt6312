@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 
 project (pt6312)
-set (SRC_LIB pt6312.c display_def.cpp)
+set (SRC_LIB pt6312.c display_def.cpp display_ani.cpp base_ani.cpp rebound_ani.cpp)
 
 set (CMAKE_BUILD_TYPE Debug)
 
