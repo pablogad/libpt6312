@@ -105,6 +105,8 @@ public:
    // Round signal
    void clearRoundSector();
    uint8_t getRoundSectorLevelCount() const;
+   void setRoundSectorSegment( const uint8_t level );
+   void resetRoundSectorSegment( const uint8_t level );
    void setRoundSectorLevel( const uint8_t level );
    void setRoundSectorSectors( const int* index_list );
    // Digit groups

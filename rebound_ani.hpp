@@ -28,3 +28,18 @@ public:
 
    void updateDisplay( DisplayDef& display );
 };
+
+
+// Round sector rebound animation:
+class RoundSectorReboundAni : public BaseAni {
+
+   bool up_direction;
+
+public:
+   RoundSectorReboundAni( const uint8_t segments ) :
+                                        up_direction(true),
+                                        BaseAni( segments, BaseAni::ANI_REBOUND ) {}
+
+   uint8_t next();
+   void updateDisplay( DisplayDef& display );
+};

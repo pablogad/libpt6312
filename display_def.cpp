@@ -486,6 +486,20 @@ void DisplayDef::clearRoundSector() {
 uint8_t DisplayDef::getRoundSectorLevelCount() const {
    return roundSec.sectors.size();
 }
+// Set the sector requested starting by 12 o'clock position
+void DisplayDef::setRoundSectorSegment( const uint8_t level ) {
+   if( level <= roundSec.sectors.size() ) {
+      int index = 0;
+      setDataBits( roundSec.grid, roundSec.sectors[ index ] );
+   }
+}
+// Turn off the sector requested starting by 12 o'clock position
+void DisplayDef::resetRoundSectorSegment( const uint8_t level ) {
+   if( level <= roundSec.sectors.size() ) {
+      int index = 0;
+      resetDataBits( roundSec.grid, roundSec.sectors[ index ] );
+   }
+}
 // Set the number of sectors requested starting by 12 o'clock position
 void DisplayDef::setRoundSectorLevel( const uint8_t level ) {
    if( level <= roundSec.sectors.size() ) {

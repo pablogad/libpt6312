@@ -1,6 +1,9 @@
 #include "rebound_ani.hpp"
 #include "display_ani.hpp"
 
+//
+//  TEXT REBOUND ANIMATION
+//
 uint8_t TextReboundAni::next() {
    // window_size : visible portion
    if( up_direction ) {
@@ -33,3 +36,22 @@ void TextReboundAni::updateDisplay( DisplayDef& display ) {
    }
 }
 
+
+//
+// ROUND SECTOR REBOUND ANIMATION
+//
+uint8_t RoundSectorReboundAni::next() {
+   if( up_direction ) {
+      if( step < max_steps ) step++;
+      else up_direction = false;
+   }
+   else {
+      if( step > 0 ) step--;
+      else up_direction = true;
+   }
+}
+
+void RoundSectorReboundAni::updateDisplay( DisplayDef& display ) {
+   // Write currently visible sectors
+   display.setRoundSectorLevel( step );
+}
