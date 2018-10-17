@@ -483,7 +483,7 @@ void DisplayDef::clearRoundSector() {
    resetDataBits( roundSec.grid, segments );
 }
 // Get number of levels of the RS
-uint8_t DisplayDef::getRoundSectorLevelCount() {
+uint8_t DisplayDef::getRoundSectorLevelCount() const {
    return roundSec.sectors.size();
 }
 // Set the number of sectors requested starting by 12 o'clock position
@@ -510,12 +510,12 @@ void DisplayDef::setRoundSectorSectors( const int* idx_list ) {
 }
 
 // Returns number of digit groups
-uint8_t DisplayDef::getNumberOfGroups() {
+uint8_t DisplayDef::getNumberOfGroups() const {
    return groupList.size();
 }
 
 // Returns number of digits on a group. 0 if the group does not exist.
-uint8_t DisplayDef::getNumberOfDigitsOnGroup( const uint8_t group ) {
+uint8_t DisplayDef::getNumberOfDigitsOnGroup( const uint8_t group ) const {
 
    uint8_t val = 0;
 

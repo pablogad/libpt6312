@@ -104,12 +104,12 @@ public:
    void removeDots( const uint8_t group, const uint8_t index );
    // Round signal
    void clearRoundSector();
-   uint8_t getRoundSectorLevelCount();
+   uint8_t getRoundSectorLevelCount() const;
    void setRoundSectorLevel( const uint8_t level );
    void setRoundSectorSectors( const int* index_list );
    // Digit groups
-   uint8_t getNumberOfGroups();
-   uint8_t getNumberOfDigitsOnGroup( const uint8_t group );
+   uint8_t getNumberOfGroups() const;
+   uint8_t getNumberOfDigitsOnGroup( const uint8_t group ) const;
 
    uint8_t* getData();  // Get buffer pointer. Length of buffer is 22 bytes.
    std::vector<uint8_t> getDifferences( const uint8_t* other_buffer, const uint8_t len=22 );
