@@ -6,7 +6,9 @@
 extern "C" {
 #include "pt6312.h"
 }
+
 #include "display_def.hpp"
+#include "display_ani.hpp"
 
 using std::cout;
 using std::endl;
@@ -119,6 +121,17 @@ int main( int argc, char* argv[] ) {
       display.clearDigits();
       display.setDigits( "APABLOIIII", 1 );
       updateDisplay( display.getData(),0,12 );
+
+      // Test animation
+      DisplayAni testAnimations( display );
+      testAnimations.create_text_animation( "0123456789 HELLO ALL", BaseAni::ANI_REBOUND, 0 );
+
+      int cnt=0;
+      while(cnt++ < 100) {
+         testAnimations.tick();
+         sleep(1);
+         updateDisplay( display.getData(),0,12 );
+      }
    }
    else {
       cout << "Cannot load display definition file!" << endl;
