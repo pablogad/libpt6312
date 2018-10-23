@@ -14,6 +14,10 @@ uint8_t BaseAni::get() {
    return step;
 }
 
+const BaseAni::AnimationType BaseAni::getAniType() const {
+   return type;
+}
+
 // Default update: do nothing
 void BaseAni::updateDisplay( DisplayDef& display ) {
 }

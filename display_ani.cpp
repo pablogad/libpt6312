@@ -1,12 +1,12 @@
 #include "display_ani.hpp"
 #include "rebound_ani.hpp"
 
-void DisplayAni::tick() {
+void DisplayAni::tick( DisplayDef& display ) {
    // Advance a frame on the current animations
-   for( BaseAni& ani : animations ) {
-      ani.next();
-      uint8_t offset = ani.get();
-      
+   for( int i=0; i<animations.size(); i++ ) {
+      animations[i]->next();
+      uint8_t offset = animations[i]->get();
+      animations[i]->updateDisplay( display );
    }
 }
 
@@ -27,8 +27,8 @@ uint8_t DisplayAni::create_text_animation(const std::string& str,
       display_size = display.getNumberOfDigitsOnGroup( group );
    }
    if( t == BaseAni::ANI_REBOUND ) {
-      TextReboundAni newAni( str, display_size, group );
-      animations.push_back( newAni );
+      animations.push_back( unique_ptr<TextReboundAni>(
+                                new TextReboundAni( str, display_size, group ) ) );
    }
    // else if ANI_SCROLL
    // else if ANI_REVEAL

@@ -1,7 +1,13 @@
 #pragma once
 
+#include <memory>
+
 #include "display_def.hpp"
 #include "base_ani.hpp"
+
+
+using std::unique_ptr;
+
 
 // This object contains a set of animations on the VFD display.
 // It's only possible to set up a text animation per group and one for a round sector.
@@ -20,12 +26,12 @@ public:
    uint8_t create_round_sector_animation();
 
    // Animation tick: fps
-   void tick();
+   void tick( DisplayDef& display );
 
    static const uint8_t ALL_GROUPS = 0xFF;
 
 private:
    const DisplayDef& display;
-   std::vector<BaseAni> animations;
+   std::vector<unique_ptr<BaseAni>> animations;
 
 };

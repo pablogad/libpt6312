@@ -4,7 +4,6 @@
 
 #include "display_def.hpp"
 
-
 // Animation control class
 class BaseAni {
 public:
@@ -36,6 +35,9 @@ public:
    BaseAni( const uint8_t num_steps, const BaseAni::AnimationType t ) : max_steps(num_steps),
                                                          step(0),
                                                          type(t) {}
+   // Needed for vector<ptr_to_BaseAni>
+   virtual ~BaseAni() {}
+
    // Next animation step
    virtual uint8_t next();
 
@@ -44,6 +46,9 @@ public:
 
    // Get current step
    uint8_t get();
+
+   // Get animation type
+   const BaseAni::AnimationType getAniType() const;
 
    // Update data on the display. Does not refresh the display!
    virtual void updateDisplay( DisplayDef& display );
