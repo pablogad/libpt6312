@@ -113,6 +113,7 @@ int main( int argc, char* argv[] ) {
          sleep(1);
       }
       display.resetDigit(0,1);
+
       const uint8_t collection[] = { 5 };
       updateDisplayPartial( display.getData(),collection,1);
 
@@ -128,8 +129,9 @@ int main( int argc, char* argv[] ) {
 
       int cnt=0;
       while(cnt++ < 100) {
-         testAnimations.tick();
+         testAnimations.tick( display );
          sleep(1);
+         // Draw!
          updateDisplay( display.getData(),0,12 );
       }
    }
