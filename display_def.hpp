@@ -55,7 +55,7 @@ typedef struct _Digit {
    bool hasAdd;
    bool hasDots;
    uint8_t dotsGrid;
-   uint16_t dotsCode;  // Only if its got dots
+   uint16_t dotsCode;  // Only if its got dots - code of digit's dot on grid
 } Digit;
 
 // Definition of a group of digits
@@ -100,6 +100,7 @@ public:
    void setDigitCustomData( const uint8_t group, const uint8_t offset, const uint8_t segment_bits );
    void resetDigit( const uint8_t group, const uint8_t offset, const uint8_t len=1 );
    void clearDigits();
+   bool hasDots( const uint8_t group, const uint8_t index );
    void setDots( const uint8_t group, const uint8_t index );
    void removeDots( const uint8_t group, const uint8_t index );
    // Round signal

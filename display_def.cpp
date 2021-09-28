@@ -219,8 +219,8 @@ DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
                       throw std::runtime_error( "Invalid number in symbol " + command );
                   }
 
-		  // Add symbol to list
-		  symbols.push_back( newSym );
+                  // Add symbol to list
+                  symbols.push_back( newSym );
                }
                else throw std::runtime_error( "Symbol not recognized " + command + ". Add new symbols to source code as needed" );
             }
@@ -450,6 +450,17 @@ void DisplayDef::setDigitCustomData( const uint8_t group, const uint8_t offset, 
          setChar( d, segment_bits );
       }
    }
+}
+
+// Check if dot defined for the group.
+//    group : digits group to check for the : character
+//    index : the index of the digit having or not the : inside the group
+bool DisplayDef::hasDots( const uint8_t group, const uint8_t index ) {
+   if( group >= groupList.size() ) return false;
+   const DigitGroup& g = groupList[ group ];
+   if( index >= g.digits.size() ) return false;
+   const Digit& d = g.digits[index];
+   return d.hasDots;
 }
 
 // Write dots if defined for the group. If not, the call is ignored.
