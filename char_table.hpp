@@ -32,7 +32,7 @@ const std::map<char,uint8_t> charToDisplayMap = {
    { '6', 0x7B },
    { '7', 0x25 },
    { '8', 0x7F },
-   { '9', 0x2F },
+   { '9', 0x6F },
 
    { '_', 0x40 },
    { '-', 0x08 },
