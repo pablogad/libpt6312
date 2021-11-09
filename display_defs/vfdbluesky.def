@@ -92,6 +92,7 @@ DigitsGroup2
       SegVerDnL 5.0020
       SegVerDnR 5.0010
       SegHorDn  5.0040
+
 # Symbol  user code and display value (grid.seg)
 SymbolDvd    1,2.1000
 SymbolS      3,2.4000
@@ -109,6 +110,17 @@ SymbolA      22,2.0400
 SymbolMB     23,2.0200
 Symbol1L     24,4.4000
 Symbol2R     25,4.2000
+
+# KeyCodes - 24 bit value
+KeyPlay      000080
+KeyPause     000800
+KeyStop      008000
+KeyRew       000004
+KeyFwd       000001
+KeyPrev      080000
+KeyNext      800000
+KeyEject     000008
+KeyNP        004000
 
 End VfdBlueSky
 

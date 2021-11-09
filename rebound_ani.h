@@ -1,8 +1,8 @@
 #include <cstring>
 #include <string>
 
-#include "text_data.hpp"
-#include "base_ani.hpp"
+#include "text_data.h"
+#include "base_ani.h"
 
 // Text rebound animation control: the text moves to the left and then to the right
 // when reaching the end of string
