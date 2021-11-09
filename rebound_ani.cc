@@ -1,5 +1,5 @@
-#include "rebound_ani.hpp"
-#include "display_ani.hpp"
+#include "rebound_ani.h"
+#include "display_ani.h"
 
 // TMP!
 #include <iostream>

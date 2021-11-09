@@ -4,27 +4,32 @@
 #include <stdint.h>
 #include <unistd.h>
 
-#include "pt6312.h"
+#include "vfd_interface.h"
 
+static const int EXIT_VALUE = 666;
 
 int main( int argc, char* argv[] ) {
 
    uint8_t data[22];
    int grid;
    char val[8] = {0};
-   init_pt6312();
 
-   printf( "=== DISPLAY TEST ===\n\n" );
+   VfdInterface vfd;
+   bool init = vfd.Init();
+   if (!init) {
+      printf( "FAIL!\n" );
+      return 1;
+   }
 
    // Mode: show all grids activated
    if( argc == 2 ) {
       if( !strcmp( argv[1], "--all-grids") ) {
          memset(data,255,22);
-         updateDisplay( data, 0, 22 );
+         vfd.updateDisplay( data, 0, 22 );
       }
       else if( !strcmp( argv[1], "--clear") ) {
          memset(data,0,22);
-         updateDisplay( data, 0, 22 );
+         vfd.updateDisplay( data, 0, 22 );
       }
       else if( !strcmp( argv[1], "--help") || !strcmp( argv[1], "-h" ) ) {
          printf( "Usage:\n   --all-grids: show all grids activated\n"
@@ -33,20 +38,20 @@ int main( int argc, char* argv[] ) {
                  "   No parameters: test individual grids interactively\n\n" );
       }
    }
-   else
+   else {
+   printf( "=== DISPLAY TEST ===\nExit entering grid=%d\n", EXIT_VALUE );
+
    while(1) {
 
       memset(data,0,22);
 
-      printf( "Grid? [1-22, 0:end] " );
+      printf( "Grid? [0-21, %d end] ", EXIT_VALUE );
       scanf( "%d", &grid );
 
-      if( grid < 0 || grid > 22 )
-        continue;
-      else if(!grid)
-        break;
-
-      grid--;
+      if(grid == EXIT_VALUE)
+         break;
+      else if( grid < 0 || grid > 21 )
+         continue;
 
       printf( "Value (16bit) ? " );
       scanf( "%6s", &val );
@@ -61,10 +66,10 @@ int main( int argc, char* argv[] ) {
       data[grid*2+1] = (uint8_t)( (num & 0xFF00) >> 8 );
       data[grid*2] = (uint8_t)(num & 0xFF);
 
-      updateDisplay( data, 0, 22 );
-   }
+      vfd.updateDisplay( data, 0, 22 );
 
-   close_pt6312();
+      printf( "Current keys [%08X]\n", vfd.readKeys() );
+   }}
 
    return 0;
 }

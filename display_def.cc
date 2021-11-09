@@ -4,8 +4,8 @@
 #include <fstream>
 #include <regex>
 
-#include "display_def.hpp"
-#include "char_table.hpp"
+#include "display_def.h"
+#include "vfd_char_table.h"
 
 // Translate color string to enumeration
 static inline uint8_t getColor( const std::string& color ) {
@@ -34,8 +34,8 @@ static inline std::pair<uint8_t,uint16_t> getGridSegment( const std::string& gri
 }
 
 
-// Display definition
-DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
+// Display definition: load file
+DisplayDef::DisplayDef( const std::string& fileName ) : loaded(false) {
    clearData();
    std::ifstream ifs( fileName );
 
@@ -44,6 +44,7 @@ DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
       std::regex line_regex( "([ ]*)([A-Za-z0-9]+) *([,\\.A-Za-z0-9]*) *" ); 
       std::regex data_regex( "([0-8]\\.[0-9A-Fa-f]{4})" );
       std::regex symbol_regex( " *Symbol([A-Za-z0-9]+) +([0-9]{1,2}),([0-8])\\.([0-9A-Fa-f]{4})" );
+      std::regex key_regex( " *Key([A-Za-z0-9]+) +([0-9A-Fa-f]{1,8})" );
 
       std::string line;
 
@@ -51,8 +52,6 @@ DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
       bool inDigitGroup = false;
       bool inDigit = false;
       bool inRoundSector = false;
-
-      uint8_t numSector = 0;
 
       while( ifs.good() ) {
          std::getline( ifs, line );
@@ -169,6 +168,19 @@ DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
                newDigit.grid = 0xFF;
                groupList.back().digits.push_back( newDigit );
             }
+            else if( command.substr(0,11) == "DigitsGroup" ) {
+               inDigitGroup = true;
+               DigitGroup newDigitGroup;
+               groupList.push_back( newDigitGroup );
+            }
+            else if( command.substr(0,11) == "RoundSector" ) {
+               inRoundSector = true;
+               inDigitGroup = false;
+               inDigit = false;
+
+               roundSec.sectors.clear();
+               roundSec.grid = 0xFF;
+            }
             else if( command.substr(0,6) == "Symbol" ) {
                inDigitGroup = false;
                inDigit = false;
@@ -220,25 +232,45 @@ DisplayDef::DisplayDef( const char* fileName ) : loaded(false) {
                   }
 
                   // Add symbol to list
-                  symbols.push_back( newSym );
+		  symbols.push_back( newSym );
                }
                else throw std::runtime_error( "Symbol not recognized " + command + ". Add new symbols to source code as needed" );
             }
-            else if( command.substr(0,11) == "DigitsGroup" ) {
-               inDigitGroup = true;
-               DigitGroup newDigitGroup;
-               groupList.push_back( newDigitGroup );
-            }
-            else if( command.substr(0,11) == "RoundSector" ) {
-               inRoundSector = true;
-               inDigitGroup = false;
-               inDigit = false;
+            else if( command.substr(0,3) == "Key" ) {
 
-               roundSec.sectors.clear();
-               roundSec.grid = 0xFF;
+               std::smatch key_match;
+
+               if( std::regex_match( line, key_match, key_regex ) ) {
+                  if( key_match.size() != 3 )
+                     throw std::runtime_error( "Invalid Key line " + line );
+
+                  Key newKey;
+
+                  try {
+                    const std::string& keyStr = key_match[1].str();
+                    newKey.scanCode = std::stoi( key_match[2].str(), nullptr, 16 );
+
+                    if (keyStr == "Play") { newKey.keyCode = KeyId::KEY_PLAY; }
+                    else if (keyStr == "Pause") { newKey.keyCode = KeyId::KEY_PAUSE; }
+                    else if (keyStr == "Stop") { newKey.keyCode = KeyId::KEY_STOP; }
+                    else if (keyStr == "Rew") { newKey.keyCode = KeyId::KEY_REW; }
+                    else if (keyStr == "Fwd") { newKey.keyCode = KeyId::KEY_FWD; }
+                    else if (keyStr == "Prev") { newKey.keyCode = KeyId::KEY_PREV; }
+                    else if (keyStr == "Next") { newKey.keyCode = KeyId::KEY_NEXT; }
+                    else if (keyStr == "Eject") { newKey.keyCode = KeyId::KEY_EJECT; }
+                    else if (keyStr == "NP") { newKey.keyCode = KeyId::KEY_NP; }
+
+                    else throw std::runtime_error( "Undefined key " + command + ", " + keyStr + ". Add new keycodes to source code as needed" );
+                  } catch( std::invalid_argument& e ) {
+                      throw std::runtime_error( "Invalid number in scancode for " + command );
+                  }
+
+                  // Add key definition to list
+                  keys.push_back( newKey );
+               }
             }
             } catch( std::out_of_range& e ) {
-               break;
+                break;
             }
          }
       }
@@ -270,8 +302,6 @@ inline void DisplayDef::resetDataBits( const uint8_t grid, const uint16_t code )
 }
 
 // Write a symbol to the display memory if it exists
-// (if the Symbol code, among the list defined on header file, is
-// declared on the definition file)
 void DisplayDef::setSymbol( const SymbolId code ) {
    for( Symbol sym : symbols ) {
       if( sym.symbolCode == code ) {
@@ -280,8 +310,6 @@ void DisplayDef::setSymbol( const SymbolId code ) {
       }
    }
 }
-// Write a symbol to the display memory if it exists, using
-// the user code declared on the definition file
 void DisplayDef::setSymbol( const uint8_t usercode ) {
    for( Symbol sym : symbols ) {
       if( sym.usercode == usercode ) {
@@ -291,9 +319,7 @@ void DisplayDef::setSymbol( const uint8_t usercode ) {
    }
 }
 
-// Delete a symbol from the display memory by symbol code
-// If this code is declared on the definition file, it gets cleared
-// from the display
+// Delete a symbol from the display memory
 void DisplayDef::resetSymbol( const SymbolId code ) {
    for( Symbol sym : symbols ) {
       if( sym.symbolCode == code ) {
@@ -302,8 +328,6 @@ void DisplayDef::resetSymbol( const SymbolId code ) {
       }
    }
 }
-// Delete a symbol from the display memory using the user code associated
-// to the symbol on the definition file
 void DisplayDef::resetSymbol( const uint8_t usercode ) {
    for( Symbol sym : symbols ) {
       if( sym.usercode == usercode ) {
@@ -313,9 +337,8 @@ void DisplayDef::resetSymbol( const uint8_t usercode ) {
    }
 }
 
-// Write a single character to the display memory
+// Write a character to the display memory
 void DisplayDef::setChar( const Digit& d, const uint8_t v ) {
-   int address = d.grid * 2;
    uint16_t segments = 0;  // The two bytes to combine with the grid
    if( v&1 )   segments += d.segments[0];
    if( v&2 )   segments += d.segments[1];
@@ -339,16 +362,21 @@ void DisplayDef::resetDigit( const uint8_t group, uint8_t index, uint8_t len ) {
       if( g.digits.size() <= index+len )
       while( len-- ) {
          const Digit& d = g.digits[ index++ ];
-
-         // Create a mask with 0s on the segments to clear
-         uint16_t segments = d.segments[0] + d.segments[1] + d.segments[2] + \
-                             d.segments[3] + d.segments[4] + d.segments[5] + \
-                             d.segments[6];
-         if( d.hasAdd ) segments += d.segments[7];
-         resetDataBits( d.grid, segments );
+         resetDigit(d);
       }
    }
 }
+
+// Clear a digit
+void DisplayDef::resetDigit( const Digit& d ) {
+   // Create a mask with 0s on the segments to clear
+   uint16_t segments = d.segments[0] + d.segments[1] + d.segments[2] + \
+                       d.segments[3] + d.segments[4] + d.segments[5] + \
+                       d.segments[6];
+   if( d.hasAdd ) segments += d.segments[7];
+   resetDataBits( d.grid, segments );
+}
+
 // Clear all the digits on the display memory
 void DisplayDef::clearDigits() {
    for( const DigitGroup& g : groupList ) {
@@ -384,19 +412,39 @@ inline uint8_t DisplayDef::translateChar( const char c ) {
    return v;
 }
 
+// Erase digits of a group
+void DisplayDef::resetGroup( const uint8_t group ) {
+   if( group < groupList.size() ) {
+      const DigitGroup& g = groupList[ group ];
+      std::for_each(g.digits.begin(), g.digits.end(), [this](const Digit& d) { resetDigit(d); } );
+   }
+}
+
 // Write digits of a digits group. Tries to translate characters
 // to something meaningful if possible.
 // Excess characters on str are ignored. Does nothing if group does not exist.
+// If str contains a ':' character and the digit has a : associated (flag hasDots)
+// the segment of the : is lit.
 //    group : digits group
 //    offset: initial digit on the digit group (0 by default)
 void DisplayDef::setDigits( const uint8_t group, const std::string& str, const uint8_t offset ) {
    if( group < groupList.size() ) {
       const DigitGroup& g = groupList[ group ];
-      int idx=static_cast<int>(offset);
+      unsigned int idx=static_cast<unsigned int>(offset);
       for( char c : str ) {
          if( idx > g.digits.size() ) break;
-         const Digit& d = g.digits[idx++];
-         setChar( d, translateChar(c) );
+         const Digit& d = g.digits[idx];
+         if( c == ':') {
+            // If not first character, the dots are associated to the
+            // previous digit
+	    const Digit& ddot = (idx == 0 ? d : g.digits[idx-1]);
+            // If no dots ignore character
+            if( ddot.hasDots )
+               setDataBits( ddot.dotsGrid, ddot.dotsCode );
+         } else {
+            setChar( d, translateChar(c) );
+            idx++;
+         }
       }
    }
 }
@@ -410,7 +458,7 @@ void DisplayDef::setDigits( const uint8_t group, const std::string& str, const u
 void DisplayDef::setDigits( const std::string& str, const uint8_t offset ) {
 
    uint8_t group = 0;
-   int current_digit = static_cast<int>( offset );
+   unsigned int current_digit = static_cast<unsigned int>( offset );
    DigitGroup& g = groupList[ group ];
 
    // Look for the initial group and digit at offset
@@ -484,6 +532,14 @@ void DisplayDef::removeDots( const uint8_t group, const uint8_t index ) {
       }
    }
 }
+void DisplayDef::removeDots( const uint8_t group ) {
+   if( group < groupList.size() ) {
+      const DigitGroup& g = groupList[ group ];
+      std::for_each( g.digits.begin(), g.digits.end(), [&]( const Digit& d ) {
+            if( d.hasDots ) resetDataBits( d.dotsGrid, d.dotsCode );
+      });
+   }
+}
 
 // Clear round sector: remove all segments of the RS from display memory
 void DisplayDef::clearRoundSector() {
@@ -497,22 +553,8 @@ void DisplayDef::clearRoundSector() {
 uint8_t DisplayDef::getRoundSectorLevelCount() const {
    return roundSec.sectors.size();
 }
-// Set the sector requested starting by 12 o'clock position
-void DisplayDef::setRoundSectorSegment( const uint8_t level ) {
-   if( level <= roundSec.sectors.size() ) {
-      int index = 0;
-      setDataBits( roundSec.grid, roundSec.sectors[ index ] );
-   }
-}
-// Turn off the sector requested starting by 12 o'clock position
-void DisplayDef::resetRoundSectorSegment( const uint8_t level ) {
-   if( level <= roundSec.sectors.size() ) {
-      int index = 0;
-      resetDataBits( roundSec.grid, roundSec.sectors[ index ] );
-   }
-}
 // Set the number of sectors requested starting by 12 o'clock position
-void DisplayDef::setRoundSectorLevel( const uint8_t level ) {
+void DisplayDef::setRoundSectorSegment( const uint8_t level ) {
    if( level <= roundSec.sectors.size() ) {
       int index = 0;
       clearRoundSector();
@@ -521,13 +563,24 @@ void DisplayDef::setRoundSectorLevel( const uint8_t level ) {
       setDataBits( roundSec.grid, segments );
    }
 }
+// Turn on the sector requested starting by 12 o'clock position
+void DisplayDef::setRoundSectorLevel( const uint8_t level ) {
+   if( level <= roundSec.sectors.size() )
+      setDataBits( roundSec.grid, roundSec.sectors[level] );
+}
+// Turn off the sector requested starting by 12 o'clock position
+void DisplayDef::resetRoundSectorLevel( const uint8_t level ) {
+   if( level <= roundSec.sectors.size() )
+      resetDataBits( roundSec.grid, roundSec.sectors[ level ] );
+}
 // Set the sectors having the indexes contained on the list.
 // The end of the list is signaled by a -1 value.
 void DisplayDef::setRoundSectorSectors( const int* idx_list ) {
-   int cnt=0;
+   unsigned int cnt=0;
    uint16_t segments = 0;
    clearRoundSector();
-   while( cnt<roundSec.sectors.size() && idx_list[cnt] != -1 && idx_list[cnt] < roundSec.sectors.size() ) {
+   while( cnt<roundSec.sectors.size() && idx_list[cnt] != -1 &&
+               idx_list[cnt] < static_cast<int>(roundSec.sectors.size()) ) {
       segments += roundSec.sectors[ idx_list[cnt] ];
       cnt++;
    }
@@ -535,12 +588,12 @@ void DisplayDef::setRoundSectorSectors( const int* idx_list ) {
 }
 
 // Returns number of digit groups
-uint8_t DisplayDef::getNumberOfGroups() const {
+uint8_t DisplayDef::getNumberOfGroups() {
    return groupList.size();
 }
 
 // Returns number of digits on a group. 0 if the group does not exist.
-uint8_t DisplayDef::getNumberOfDigitsOnGroup( const uint8_t group ) const {
+uint8_t DisplayDef::getNumberOfDigitsOnGroup( const uint8_t group ) {
 
    uint8_t val = 0;
 
@@ -554,10 +607,97 @@ uint8_t DisplayDef::getNumberOfDigitsOnGroup( const uint8_t group ) const {
    return val;
 }
 
+// Returns true if the group has at least 4 digits and there are digits and dots
+// ordered as 88:88
+// pos: returns digit index of the first 8 in the 88:88 pattern if ret = true
+bool DisplayDef::canShowTime( const uint8_t group, uint8_t& pos ) {
+
+   if ( group >= groupList.size() ) return false;
+
+   const DigitGroup& g = groupList[ group ];
+   int cntDigit1 = 0;
+   int cntDigit2 = 0;
+   bool foundDot = false;
+   uint8_t posTmp = 0;
+
+   std::for_each(g.digits.begin(), g.digits.end(),
+       [&cntDigit1,&cntDigit2,&foundDot,&posTmp](const Digit& d) {
+           if (foundDot) {
+              cntDigit2++;
+	      if (cntDigit2 == 2) return;
+	   }
+	   else {
+	      cntDigit1++;
+	      // Two digits : two digits - ignore dots having less than 2 digits before in the group
+	      if (d.hasDots) {
+	         if (cntDigit1 >= 2) { 
+	            foundDot = true;
+		    posTmp = cntDigit1 - 1; // Initial position of 88:88 string
+	         }
+	         else cntDigit1 = 0;  // Dots found with only 1 digit - discard
+	      }
+	   }
+   });
+
+   bool result = foundDot && cntDigit1 == 2 && cntDigit2 == 2;
+
+   if( result ) pos = posTmp;
+
+   return result;
+}
+
+// Returns true if the display group can show a time in 8:88:88 format
+// If the return value is true, pos contains the position of the first digit
+bool DisplayDef::canShowHMS( const uint8_t group, uint8_t& pos ) {
+
+   if ( group >= groupList.size() ) return false;
+
+   const DigitGroup& g = groupList[ group ];
+   uint8_t posTmp = 0;
+
+   // Check 88:88
+   bool result = canShowTime( group, posTmp );
+
+   if (!result) return false;
+
+   // Ok, it can do 88:88, let's check if there are more digits
+   uint8_t posStart, posEnd;
+   if( posTmp == 0 ) {
+      posEnd = g.digits.size();
+      posStart = 4;  // Check at the end
+   } else {
+      posEnd = posTmp;
+      posStart = 0;  // Check at the start
+   }
+
+   // Now check that there is a "8+:" string from posTmp before posEnd
+   // We expect any number of digits but only one ":"
+   result = false;
+   while( posStart != posEnd ) {
+      if( g.digits[ posStart ].hasDots ) {
+         if( result ) return false;  // Expected only one ":"
+         result = true;
+      }
+      posStart++;
+   }
+
+   if( result ) pos = posTmp;
+
+   return result;
+}
+
 // Return internal data memory representation of the display memory.
 uint8_t* DisplayDef::getData() { return data; }
 
-// Return a list of grids that have changed in relation to the data array
+void DisplayDef::getKeys(std::vector<KeyId>& keyIds, uint32_t keys_buffer ) {
+   keyIds.clear();
+   if (keys_buffer == 0) return;
+   for (Key key : keys)
+      if ((keys_buffer & key.scanCode) == key.scanCode)
+         keyIds.push_back(key.keyCode);
+}
+
+// Return a list of grids that have changed with respect to the data array
 std::vector<uint8_t> DisplayDef::getDifferences( const uint8_t* other_data, const uint8_t len ) {
    std::vector<uint8_t> vec;
    if( len <= 22 ) {
@@ -565,7 +705,7 @@ std::vector<uint8_t> DisplayDef::getDifferences( const uint8_t* other_data, cons
       while( idx != len ) {
          if( other_data[idx] != data[idx] )
             vec.push_back( idx );
-	 idx++;
+         idx++;
       }
    }
    return vec;

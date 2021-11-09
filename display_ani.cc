@@ -1,7 +1,7 @@
-#include "display_ani.hpp"
-#include "rebound_ani.hpp"
+#include "display_ani.h"
+#include "rebound_ani.h"
 
-void DisplayAni::tick( DisplayDef& display ) {
+void DisplayAni::tick() {
    // Advance a frame on the current animations
    for( int i=0; i<animations.size(); i++ ) {
       animations[i]->next();

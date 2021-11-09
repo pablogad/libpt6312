@@ -1,4 +1,4 @@
-#include "base_ani.hpp"
+#include "base_ani.h"
 
 uint8_t BaseAni::next() {
    step++;

@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "display_def.hpp"
-#include "base_ani.hpp"
+#include "display_def.h"
+#include "base_ani.h"
 
 
 using std::unique_ptr;
@@ -14,7 +14,7 @@ using std::unique_ptr;
 class DisplayAni {
 
 public:
-   DisplayAni( const DisplayDef& d ) : display(d) {}
+   DisplayAni( DisplayDef& d ) : display(d) {}
 
    // Create a text animation on a group or on all characters on the display
    // Returns an unique id of the animation
@@ -26,12 +26,12 @@ public:
    uint8_t create_round_sector_animation();
 
    // Animation tick: fps
-   void tick( DisplayDef& display );
+   void tick();
 
    static const uint8_t ALL_GROUPS = 0xFF;
 
 private:
-   const DisplayDef& display;
+   DisplayDef& display;
    std::vector<unique_ptr<BaseAni>> animations;
 
 };

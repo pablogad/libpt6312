@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "display_def.hpp"
+#include "display_def.h"
 
 // Animation control class
 class BaseAni {
